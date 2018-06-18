@@ -110,6 +110,8 @@ public:
      */
     int                         getTimeout() const;
     void                        setTimeout(int microseconds);
+    void            update(ofEventArgs& args);
+
 private:
     virtual void    foundMovie(int64_t duration) override;
     virtual void    foundStream(AVStream *stream) override;
@@ -124,7 +126,6 @@ private:
     void            setVideoPTSLoaded(int64_t pts);
     void            setPTSLoaded(int64_t pts);
     void            setPositionLoaded(float pct);
-    void            update(ofEventArgs& args);
     void            updatePTS();
     void            read(ofxHap::TimeRangeSequence& sequence);
     class AudioOutput : public ofBaseSoundOutput {
@@ -136,8 +137,8 @@ private:
         void stop();
         void close();
         unsigned int  getBestRate(unsigned int rate) const;
-    private:
         virtual void    audioOut(ofSoundBuffer& buffer) override;
+    private:
         bool                                _started;
         int                                 _channels;
         int                                 _sampleRate;
@@ -172,10 +173,11 @@ private:
     std::shared_ptr<ofxHap::Demuxer>        _demuxer;
     std::shared_ptr<ofxHap::RingBuffer>     _buffer;
     std::shared_ptr<ofxHap::AudioThread>   _audioThread;
-    AudioOutput         _audioOut;
     float               _volume;
     std::chrono::microseconds               _timeout;
     float               _positionOnLoad;
+public:
+    AudioOutput         _audioOut;
 };
 
 #endif /* defined(__ofxHapPlayer__) */

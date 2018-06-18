@@ -223,15 +223,15 @@ void ofxHapPlayer::foundStream(AVStream *stream)
         int sampleRate = codec->sample_rate;
         ofxHap::AudioParameters parameters(codec, kofxHapPlayerBufferUSec, stream->start_time, stream->duration);
 #endif
-        sampleRate = _audioOut.getBestRate(sampleRate);
-        _audioStreamIndex = stream->index;
-        _buffer = std::make_shared<ofxHap::RingBuffer>(channels, sampleRate / 8);
+//        sampleRate = _audioOut.getBestRate(sampleRate);
+//        _audioStreamIndex = stream->index;
+//        _buffer = std::make_shared<ofxHap::RingBuffer>(channels, sampleRate / 8);
 
-        _audioOut.configure(channels, sampleRate, _buffer);
+//        _audioOut.configure(channels, sampleRate, _buffer);
 
-        _audioThread = std::make_shared<ofxHap::AudioThread>(parameters, sampleRate, _buffer, *this);
-        _audioThread->setVolume(_volume);
-        _audioThread->sync(_clock, false);
+//        _audioThread = std::make_shared<ofxHap::AudioThread>(parameters, sampleRate, _buffer, *this);
+//        _audioThread->setVolume(_volume);
+//        _audioThread->sync(_clock, false);
     }
 }
 
@@ -332,6 +332,7 @@ void ofxHapPlayer::read(ofxHap::TimeRangeSequence& sequence)
 
 void ofxHapPlayer::update(ofEventArgs & args)
 {
+    //uint64_t current_time = ofGetElapsedTimeMillis();
     std::lock_guard<std::mutex> guard(_lock);
 
     // Calculate our current position for video and audio (if present)
@@ -453,6 +454,8 @@ void ofxHapPlayer::update(ofEventArgs & args)
             }
         }
     }
+    //ofLogError()<<"Hap update time : " <<ofGetElapsedTimeMillis() - current_time;
+
 }
 
 bool ofxHapPlayer::getHapAvailable() const
